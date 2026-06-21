@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Kalkulator Sederhana</title>
+<style>
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: linear-gradient(135deg, #1e1e2f, #2d2d44);
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .calculator {
+    background: #2b2b3d;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    width: 300px;
+  }
+
+  #display {
+    width: 100%;
+    height: 60px;
+    background: #1a1a28;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    text-align: right;
+    font-size: 28px;
+    padding: 0 15px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+  }
+
+  .buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+
+  button {
+    padding: 18px;
+    font-size: 18px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    background: #3a3a52;
+    color: #fff;
+    transition: 0.2s;
+  }
+
+  button:hover {
+    background: #4a4a6a;
+  }
+
+  .operator {
+    background: #ff9500;
+  }
+  .operator:hover {
+    background: #ffaa33;
+  }
+
+  .equal {
+    background: #34c759;
+    grid-column: span 2;
+  }
+  .equal:hover {
+    background: #4dd96b;
+  }
+
+  .clear {
+    background: #ff3b30;
+  }
+  .clear:hover {
+    background: #ff5c52;
+  }
+</style>
+</head>
+<body>
+
+<div class="calculator">
+  <input type="text" id="display" disabled>
+  <div class="buttons">
+    <button class="clear" onclick="clearDisplay()">C</button>
+    <button onclick="deleteLast()">⌫</button>
+    <button class="operator" onclick="appendValue('%')">%</button>
+    <button class="operator" onclick="appendValue('/')">÷</button>
+
+    <button onclick="appendValue('7')">7</button>
+    <button onclick="appendValue('8')">8</button>
+    <button onclick="appendValue('9')">9</button>
+    <button class="operator" onclick="appendValue('*')">×</button>
+
+    <button onclick="appendValue('4')">4</button>
+    <button onclick="appendValue('5')">5</button>
+    <button onclick="appendValue('6')">6</button>
+    <button class="operator" onclick="appendValue('-')">−</button>
+
+    <button onclick="appendValue('1')">1</button>
+    <button onclick="appendValue('2')">2</button>
+    <button onclick="appendValue('3')">3</button>
+    <button class="operator" onclick="appendValue('+')">+</button>
+
+    <button onclick="appendValue('0')">0</button>
+    <button onclick="appendValue('.')">.</button>
+    <button class="equal" onclick="calculate()">=</button>
+  </div>
+</div>
+
+<script>
+  const display = document.getElementById('display');
+
+  function appendValue(value) {
+    display.value += value;
+  }
+
+  function clearDisplay() {
+    display.value = '';
+  }
+
+  function deleteLast() {
+    display.value = display.value.slice(0, -1);
+  }
+
+  function calculate() {
+    try {
+      let expression = display.value.replace(/%/g, '/100');
+      display.value = eval(expression);
+    } catch (error) {
+      display.value = 'Error';
+    }
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key >= '0' && e.key <= '9') appendValue(e.key);
+    if (['+','-','*','/','.'].includes(e.key)) appendValue(e.key);
+    if (e.key === 'Enter') calculate();
+    if (e.key === 'Backspace') deleteLast();
+    if (e.key === 'Escape') clearDisplay();
+  });
+</script>
+
+</body>
+</html>
+```
